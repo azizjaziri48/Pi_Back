@@ -20,7 +20,7 @@ public class Partner implements Serializable {
     private String name;
     private String sector;
     private String logo;
-   @OneToOne(mappedBy="partner")
+    @OneToOne(mappedBy="partner")
     private Offer offer;
     @OneToMany(mappedBy="partner")
     private Set<Service> services;
