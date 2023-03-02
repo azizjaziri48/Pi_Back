@@ -1,26 +1,32 @@
 package com.example.pi_back.Entities;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Set;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class InternalService implements Serializable {
+public class Project implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private LocalDate Date;
-    private int capacite;
-    @OneToMany(mappedBy="internalService")
-    private Set<Activity> activities;
+    private String description;
+    private String estimated_time;
+    private float investable_amout;
+    private int numberInv;
+    private Double shareInv;
+
+
+
+    @ManyToMany
+    private Set<User> users;
+
+
 }

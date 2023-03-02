@@ -19,13 +19,12 @@ public class Account implements Serializable {
     private int id;
     private String cin;
     private Long solde;
-
     private LocalDate opendate;
     private String RIB;
     private String state;
     @Enumerated(EnumType.STRING)
     private TypeAccount typeaccount;
-    @ManyToOne
+    @OneToOne(mappedBy="account")
     private User user;
     @OneToMany(mappedBy = "account")
     private Set<Transaction> transactions;
