@@ -1,140 +1,64 @@
 package com.example.pi_back.Controllers;
 
 import com.example.pi_back.Entities.Project;
+import com.example.pi_back.Repositories.ProjectRepository;
 import com.example.pi_back.Services.ProjectService;
+import com.example.pi_back.Services.ProjectServiceImpl;
+
+import java.util.List;
+
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 //import io.swagger.annotations.Api;
+
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/Project")
-public class ProjectRestController
-{
-    private ProjectService projectService;
-    @PostMapping("/ajouterProject")
-    public ResponseEntity<String>  add(@RequestBody Project project){
-
-       projectService.add(project);
-        return ResponseEntity.ok("Added successfully !");
-
-    }
-    @PostMapping("ajouterAllProject")
-    public ResponseEntity<String> addAll(@RequestBody List<Project> list){
-
-      projectService.addAll(list);
-        return ResponseEntity.ok("AddedAll successfully !");
-
-    }
-    @PutMapping("/ModifierProject")
-    public ResponseEntity<String> edit(@RequestBody Project project){
-
-        projectService.edit(project);
-        return ResponseEntity.ok("Updated successfully !");
-
-    }
-    @DeleteMapping("SupprimerProject")
-    public ResponseEntity<String> delete(@RequestBody Project project){
-        projectService.delete(project);
-        return ResponseEntity.ok("Deleted successfully !");
-
-
-    }
-    @GetMapping("/afficherProject")
-    public List<Project> afficher(){return projectService.selectAll();}
-
-    @GetMapping("/afficherProjectAvecId/{id}")
-    public Project afficherOfferAvecId(@PathVariable int id)
-    {
-        return projectService.selectById(id);
-    }
-
-    @DeleteMapping("/deleteProjectById")
-    public ResponseEntity<String> deleteProjectById(@RequestBody int id)
-    {
-       projectService.deleteById(id);
-        return ResponseEntity.ok("Deleted successfully !");
-    }
-}
-
-
-
-
-/* @Autowired
-    ProjectServiceImpl ProjectService;
-
-    @GetMapping("/retrieve-all-Projects")
-    @ResponseBody
-    public List<Project> getProject() {
-        List<Project> list = this.ProjectService.retrieveAllProject();
-        return list;
-    }
-
-    @GetMapping("/retrieve-Project/{Project-id}")
-    @ResponseBody
-    public Project retrieveProject(@PathVariable("Project-id") int Id) {
-        return this.ProjectService.retrieveProject(Id);
-    }
-
-*/
-/*  @PostMapping({"/add-Project"})
-    @ResponseBody
-    public Project addProject(@RequestBody Project p) {
-       // Project Project = this.ProjectService.addProject(p);
-        return ProjectService.addProject(p);
-}
-*/
-/*
-    @DeleteMapping("/remove-Project/{Project-id}")
-    @ResponseBody
-    public void removeProject(@PathVariable("Project-id") int Id) {
-        this.ProjectService.deleteProject(Id);
-    }
-
-    @PutMapping("/modify-Project")
-    @ResponseBody
-    public Project modifyProject(@RequestBody Project project) {
-        return this.ProjectService.updateProject(project);
-    }
-
-
-}
-/*
-import java.util.List;*/
-/*
-@RestController
-@AllArgsConstructor
-
-
-@RequestMapping("/project")
 public class ProjectRestController {
-    private ProjectService projetService;
+    private ProjectService ProjectService;
     @GetMapping("/all")
     List<Project> retrieveAllProject() {
-        return projetService.retrieveAllProject();
+        return ProjectService.retrieveAllProject();
     }
     @PostMapping("/add")
-    @ResponseBody
-    Project AddProject (@RequestBody Project project){
-        return projetService.AddProject(project);
+    ResponseEntity<String> AddProject(@RequestBody Project Project){
+        /*TODO email duplication handling*/
+        if(!(ProjectService.retrieveProject(Project.getId())==null)){
+            return new ResponseEntity<>("Already Existing Id", HttpStatus.BAD_REQUEST);
+        }
+
+        ProjectService.AddProject(Project);
+        return new ResponseEntity<>("Project added sucessfully", HttpStatus.CREATED);
     }
-
-
     @DeleteMapping("/delete/{id}")
-    void removeProject (@PathVariable("id") Integer idProject){
-        projetService.removeProject(idProject);
+    ResponseEntity<String> removeProject (@PathVariable("id") Integer idProject){
+        if(ProjectService.retrieveProject(idProject)==null){
+            return new ResponseEntity<>("The Project to be deleted doesn't exist", HttpStatus.NOT_FOUND);
+        }
+        ProjectService.removeProject(idProject);
+        return new ResponseEntity<>("Project was deleted sucessfully", HttpStatus.OK);
     }
     @GetMapping("/get/{id}")
-    Project retrieveProject (@PathVariable("id") Integer idProject){
-        return projetService.retrieveProject(idProject);
+    ResponseEntity<Project> retrieveProject (@PathVariable("id") Integer idProject){
+        Project Retrieved_Project=ProjectService.retrieveProject(idProject);
+        if(Retrieved_Project==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(Retrieved_Project, HttpStatus.OK);
+
     }
     @PutMapping("/update")
-    Project updateProject(@RequestBody Project project){
-        return projetService.updateProject(project);
-    }}
-*/
+    ResponseEntity<String> updateProject (@RequestBody Project Project){
+        if(ProjectService.retrieveProject(Project.getId())==null){
+            return new ResponseEntity<>("Project Doesn't exist", HttpStatus.BAD_REQUEST);
+        }
+        ProjectService.updateProject(Project);
+        return new ResponseEntity<>("Project updated sucessfully", HttpStatus.OK);
+    }
 
-
+}
