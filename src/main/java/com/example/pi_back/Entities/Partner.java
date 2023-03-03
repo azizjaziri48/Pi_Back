@@ -25,4 +25,5 @@ public class Partner implements Serializable {
     @OneToMany(mappedBy="partner")
     private Set<Service> services;
 
+
 }

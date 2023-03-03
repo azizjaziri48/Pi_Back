@@ -1,9 +1,13 @@
 package com.example.pi_back.Controllers;
 
+
 import com.example.pi_back.Entities.Offer;
+import com.example.pi_back.Services.EmailSenderService;
 import com.example.pi_back.Services.OfferService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -12,9 +16,11 @@ import java.util.List;
 @RequestMapping("/offer")
 public class OfferRestController {
 private OfferService offerService;
+
+
 @PostMapping("/add")
 Offer AddOffer(@RequestBody Offer offer) {
-return offerService.AddOffer(offer);
+   return offerService.AddOffer(offer);
 }
 @GetMapping("/all")
 List<Offer> retrieveAllOffers() {
@@ -31,5 +37,9 @@ List<Offer> retrieveAllOffers() {
     @PutMapping("/update")
     Offer updateOffer(@RequestBody Offer offer){
     return offerService.updateOffer(offer);
+    }
+    @PutMapping("/assignacttointerservice/{idoffer}/{idpartner}")
+    public Offer assignPartnerToOffer(@PathVariable("idoffer") Integer idoffer, @PathVariable("idpartner") Integer idpartner){
+        return offerService.assignPartnerToOffer(idoffer,idpartner);
     }
 }

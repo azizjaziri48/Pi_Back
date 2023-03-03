@@ -22,4 +22,5 @@ public class Offer implements Serializable {
     private Partner partner;
    @ManyToMany
    private Set<User> users;
+
 }

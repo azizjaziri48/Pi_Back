@@ -1,4 +1,5 @@
 package com.example.pi_back.Services;
+import com.example.pi_back.Entities.Offer;
 import com.example.pi_back.Entities.Service;
 
 import java.util.List;
@@ -9,4 +10,5 @@ public interface ServiceService {
     void removeService (int idService);
     Service retrieveService (int idService);
     Service updateService(Service service);
+    Service assignPartnerToService(Integer idservice, Integer idPartner);
 }

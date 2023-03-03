@@ -27,9 +27,12 @@ public class ActivityRestController {
     Activity retrieveActivity (@PathVariable("id") Integer idActivity){
         return activityService.retrieveActivity(idActivity);
  }
- @PutMapping("/update")
+    @PutMapping("/update")
     Activity updateActivity (@RequestBody Activity activity){
         return activityService.updateActivity(activity);
  }
-
+  @PutMapping("/assignacttointerservice/{idAct}/{idIntService}")
+   public Activity assignActivityToInterService(@PathVariable("idAct") Integer idAct,@PathVariable("idIntService") Integer idIntService){
+        return activityService.assignActivityToInterService(idAct,idIntService);
+ }
 }

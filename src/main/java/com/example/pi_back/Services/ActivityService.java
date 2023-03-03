@@ -9,4 +9,5 @@ public interface ActivityService {
     void removeActivity (int idActivity);
     Activity retrieveActivity (int idActivity);
     Activity updateActivity (Activity activity);
+    Activity assignActivityToInterService(Integer idAct, Integer idInterService);
 }

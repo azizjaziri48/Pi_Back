@@ -33,4 +33,8 @@ public class ServiceRestController {
     Service updateService(@RequestBody Service service){
         return serviceService.updateService(service);
     }
+    @PutMapping("/assignpartnertoservice/{idservice}/{idpartner}")
+    public Service assignPartnerToService(@PathVariable("idservice") Integer idService, @PathVariable("idpartner") Integer idPartner){
+        return serviceService.assignPartnerToService(idService,idPartner);
+    }
 }
