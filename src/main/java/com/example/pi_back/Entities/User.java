@@ -1,5 +1,6 @@
 package com.example.pi_back.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +30,8 @@ public class User implements Serializable {
     private UserType usertype;
     @ManyToMany(mappedBy = "users")
     private Set<Offer> offers;
-    @OneToOne
-    private Account account;
+    @JsonIgnore
+    @OneToMany(mappedBy="user")
+    private Set<Account> accounts;
 
 }
