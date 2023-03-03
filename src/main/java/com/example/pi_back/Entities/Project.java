@@ -22,7 +22,8 @@ public class Project implements Serializable {
     private float investable_amout;
     private int numberInv;
     private Double shareInv;
-
+    @Enumerated(EnumType.STRING)
+    private IntevAge invetage;
 
 
     @ManyToMany

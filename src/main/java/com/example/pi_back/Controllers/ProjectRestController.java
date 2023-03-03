@@ -33,7 +33,7 @@ public class ProjectRestController {
         }
 
         ProjectService.AddProject(Project);
-        return new ResponseEntity<>("Project added sucessfully", HttpStatus.CREATED);
+        return new ResponseEntity<>("Project added successfully", HttpStatus.CREATED);
     }
     @DeleteMapping("/delete/{id}")
     ResponseEntity<String> removeProject (@PathVariable("id") Integer idProject){
@@ -41,7 +41,7 @@ public class ProjectRestController {
             return new ResponseEntity<>("The Project to be deleted doesn't exist", HttpStatus.NOT_FOUND);
         }
         ProjectService.removeProject(idProject);
-        return new ResponseEntity<>("Project was deleted sucessfully", HttpStatus.OK);
+        return new ResponseEntity<>("Project was deleted successfully", HttpStatus.OK);
     }
     @GetMapping("/get/{id}")
     ResponseEntity<Project> retrieveProject (@PathVariable("id") Integer idProject){
@@ -58,7 +58,7 @@ public class ProjectRestController {
             return new ResponseEntity<>("Project Doesn't exist", HttpStatus.BAD_REQUEST);
         }
         ProjectService.updateProject(Project);
-        return new ResponseEntity<>("Project updated sucessfully", HttpStatus.OK);
+        return new ResponseEntity<>("Project updated successfully", HttpStatus.OK);
     }
 
 }
