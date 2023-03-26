@@ -1,6 +1,8 @@
 package com.example.pi_back.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,8 +23,11 @@ public class Partner implements Serializable {
     private String sector;
     private String logo;
     @OneToOne(mappedBy="partner")
+    @JsonIgnore
+    @Transient
     private Offer offer;
     @OneToMany(mappedBy="partner")
+    @JsonIgnore
     private Set<Service> services;
 
 

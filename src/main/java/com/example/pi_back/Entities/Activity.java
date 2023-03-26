@@ -1,5 +1,6 @@
 package com.example.pi_back.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,5 +19,6 @@ public class Activity implements Serializable {
     private String name;
     private String description;
     @ManyToOne
+    @JsonIgnore
     private InternalService internalService;
 }

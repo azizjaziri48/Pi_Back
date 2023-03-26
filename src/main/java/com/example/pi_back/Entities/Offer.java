@@ -1,5 +1,6 @@
 package com.example.pi_back.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,9 +19,12 @@ public class Offer implements Serializable {
     private int id;
     private String name;
     private String type;
-    @OneToOne
+    private Long valeur;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @JsonIgnore
     private Partner partner;
    @ManyToMany
+   @JsonIgnore
    private Set<User> users;
 
 }

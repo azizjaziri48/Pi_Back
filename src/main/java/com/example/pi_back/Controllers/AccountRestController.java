@@ -1,6 +1,7 @@
 package com.example.pi_back.Controllers;
 
 import com.example.pi_back.Entities.Account;
+import com.example.pi_back.Entities.InternalService;
 import com.example.pi_back.Entities.User;
 import com.example.pi_back.Services.AccountService;
 import com.example.pi_back.Services.UserService;
@@ -70,6 +71,10 @@ public class AccountRestController {
         }
         accountService.updateAccount(account);
         return new ResponseEntity<>("Account updated sucessfully", HttpStatus.OK);
+    }
+    @PutMapping("/assignAccountToevent/{idaccount}/{idEvent}")
+    Account assignEventToAccount(@PathVariable("idaccount") Integer idAccount,@PathVariable("idEvent") Integer idIService){
+        return accountService.assignEventToAccount(idAccount,idIService);
     }
 
 }

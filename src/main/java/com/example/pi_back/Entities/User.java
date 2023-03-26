@@ -25,7 +25,7 @@ public class User implements Serializable {
     private Long Phonenum;
     private String Email;
     private String adress;
-
+    private String activitySector;
     @Enumerated(EnumType.STRING)
     private UserType usertype;
     @ManyToMany(mappedBy = "users")

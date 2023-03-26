@@ -3,10 +3,12 @@ package com.example.pi_back.Controllers;
 import com.example.pi_back.Entities.User;
 import com.example.pi_back.Services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -51,6 +53,10 @@ public class UserRestController {
         }
         UserService.updateUser(user);
         return new ResponseEntity<>("User updated sucessfully", HttpStatus.OK);
+    }
+    @PutMapping("/assignUserToOffer/{idoffer}/{iduser}")
+    User assignUserToOffer(@PathVariable("iduser") Integer idUser,@PathVariable("idoffer") Integer idOffer){
+     return UserService.assignUserToOffer(idUser,idOffer);
     }
 
 }

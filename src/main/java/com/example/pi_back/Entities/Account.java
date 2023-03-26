@@ -1,5 +1,6 @@
 package com.example.pi_back.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,4 +30,8 @@ public class Account implements Serializable {
     private User user;
     @OneToMany(mappedBy = "account")
     private Set<Transaction> transactions;
+    @ManyToMany
+    @JsonIgnore
+    private Set<InternalService> internalServices;
+
 }

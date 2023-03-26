@@ -52,6 +52,16 @@ public class OfferServiceImpl implements OfferService {
         return offerRepository.save(offer);
     }
 
+    @Override
+    public List<Offer> findByPartner_Name(String name) {
+        return offerRepository.findByPartner_Name(name);
+    }
+
+    @Override
+    public List<Offer> historiqueOffers(int idUser) {
+        return offerRepository.findByUsers_Id(idUser);
+    }
+
 
 
 }

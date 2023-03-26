@@ -2,7 +2,9 @@ package com.example.pi_back.Entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.api.client.util.DateTime;
 import lombok.*;
+import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,6 +24,11 @@ public class InternalService implements Serializable {
     private String name;
     private LocalDate Date;
     private int capacite;
+    private String Sector;
     @OneToMany(mappedBy="internalService")
+    @JsonIgnore
     private Set<Activity> activities;
+    @ManyToMany(mappedBy="internalServices")
+    @JsonIgnore
+    private Set<Account> accounts;
 }

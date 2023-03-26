@@ -6,8 +6,23 @@ import java.util.List;
 
 public interface PartnerService {
     List<Partner> retrieveAllPartners();
-    Partner AddPartner (Partner partner);
-    void removePartner (int idPartner);
-    Partner retrievePartner (int idPartner);
+
+    Partner AddPartner(Partner partner);
+
+    void removePartner(int idPartner);
+
+    Partner retrievePartner(int idPartner);
+
     Partner updatePartner(Partner partner);
+
+    Partner findMostFrequentPartner();
+
+    Partner findLessFrequentPartner();
+
+    List<Partner> findPartnersWithoutOffers();
+
+    Long countPartnersWithOffers();
+
+    double getPartnersOfferPercentages();
+    double getPartnersOfferPercentages1();
 }
