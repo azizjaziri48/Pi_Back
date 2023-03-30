@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PieChartExample" pageWidth="595" pageHeight="842" orientation="Portrait" whenNoDataType="AllSectionsNoDetail">
+    <queryString>
+        <![CDATA[SELECT p.category, SUM(p.amountinvestment), SUM(p.finalamount) FROM Project p GROUP BY p.category]]>
+    </queryString>
+    <field name="category" class="java.lang.String"/>
+    <field name="amountinvestment" class="java.lang.Float"/>
+    <field name="finalamount" class="java.lang.Float"/>
+    <title>
+        <band height="50">
+            <staticText>
+                <reportElement .../>
+                <text><![CDATA[Investment and Final Amount by Category]]></text>
+            </staticText>
+        </band>
+    </title>
+    <summary>
+        <band height="400">
+            <pieChart>
+                <chart evaluationTime="Report">
+                    <reportElement .../>
+                    <chartTitle/>
+                    <chartSubtitle/>
+                    <chartLegend/>
+                </chart>
+                <pieDataset>
+                    <keyExpression><![CDATA[$F{category}]]></keyExpression>
+                    <valueExpression><![CDATA[$F{amountinvestment}]]></valueExpression>
+                    <sectionColor>#FF0000</sectionColor>
+                    <valueExpression><![CDATA[$F{finalamount}]]></valueExpression>
+                    <sectionColor>#00FF00</sectionColor>
+                </pieDataset>
+                <piePlot>
+                    <plot/>
+                </piePlot>
+            </pieChart>
+        </band>
+    </summary>
+</jasperReport>
