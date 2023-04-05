@@ -13,8 +13,10 @@ public interface ReclamationService {
     Reclamation retrieveReclamation (int idReclamation);
     Reclamation updateReclamation (Reclamation reclamation);
 
-   //List<Reclamation> filterReclamationsBySubject(Subject subject);
+   List<Reclamation> filterReclamationsBySubject(Subject subject);
 
-    Reclamation respondToReclamation(int idReclamation, String reponse); //admin testée
+    Reclamation respondToReclamation(int idReclamation, String reponse);
 
+
+     public String getReclamationStatus(int idReclamation);
 }

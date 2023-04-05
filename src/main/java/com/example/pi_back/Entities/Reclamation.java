@@ -18,7 +18,7 @@ public class Reclamation implements Serializable {
     private int id;
     private LocalDate date;
     private String description;
-    private Boolean etat;
+    private Boolean etat = false;
     private String reponse;
     @Enumerated(EnumType.STRING)
     private Subject subject;

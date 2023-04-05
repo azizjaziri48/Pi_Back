@@ -1,6 +1,7 @@
 package com.example.pi_back.Services;
 
 import com.example.pi_back.Entities.Reclamation;
+import com.example.pi_back.Entities.Subject;
 import com.example.pi_back.Repositories.ReclamationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -93,4 +94,60 @@ public class ReclamationServiceImpl implements ReclamationService {
         reclamation.setReponse(reponse);
         return reclamationRepository.save(reclamation);
     }
+
+    @Override
+    public List<Reclamation> filterReclamationsBySubject(Subject subject) {
+        return reclamationRepository.findBySubject(subject);
+    }
+
+    /*@Override
+    public String getReclamationStatus(int idReclamation) {
+        Reclamation reclamation = retrieveReclamation(idReclamation);
+        if (reclamation == null) {
+            return "La réclamation n'existe pas";
+        } else if (reclamation.getEtat()) {
+            return "La réclamation a été traitée avec succès. La réponse de l'administrateur est : " + reclamation.getReponse();
+        } else {
+            return "La réclamation est en cours de traitement";
+        }
+    }*/
+
+    /*@Override
+    public String getReclamationStatus(int idReclamation) {
+        Reclamation reclamation = retrieveReclamation(idReclamation);
+        if (reclamation == null) {
+            return "La réclamation n'existe pas";
+        } else if (reclamation.getEtat() == null) {
+            return "L'état de la réclamation n'est pas défini";
+        } else if (reclamation.getEtat()) {
+            return "La réclamation a été traitée : " + reclamation.getReponse();
+        } else {
+            return "La réclamation est en cours de traitement";
+        }
+    }*/
+
+    @Override
+    public String getReclamationStatus(int idReclamation) {
+        Reclamation reclamation = retrieveReclamation(idReclamation);
+        if (reclamation == null) {
+            return "La réclamation n'existe pas";
+        } else if (reclamation.getEtat()) {
+            return "La réclamation a été traitée : " + reclamation.getReponse();
+        } else {
+            return "La réclamation est en cours de traitement";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

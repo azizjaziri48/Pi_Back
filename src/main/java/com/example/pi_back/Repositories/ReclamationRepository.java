@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface ReclamationRepository extends JpaRepository<Reclamation, Integer> {
 
+    List<Reclamation> findBySubject(Subject subject);
 
 }

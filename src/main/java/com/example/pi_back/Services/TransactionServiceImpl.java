@@ -1,13 +1,23 @@
 package com.example.pi_back.Services;
 import com.example.pi_back.Entities.Account;
+import com.example.pi_back.Services.EmailService;
 
 import com.example.pi_back.Entities.Transaction;
 import com.example.pi_back.Entities.TransactionStatus;
+import com.example.pi_back.Entities.User;
 import com.example.pi_back.Repositories.AccountRepository;
 import com.example.pi_back.Repositories.TransactionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 
 import javax.transaction.Transactional;
 import java.text.DecimalFormat;
@@ -25,12 +35,14 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final AccountService accountService;
     private AccountRepository accountRepository;
-
+    @Autowired
+      private   EmailService emailService ;
     @Autowired
     public TransactionServiceImpl(AccountService accountService, TransactionRepository transactionRepository, AccountRepository accountRepository) {
         this.accountService = accountService;
         this.transactionRepository = transactionRepository;
         this.accountRepository = accountRepository;
+
     }
 
     @Override
@@ -65,8 +77,29 @@ public class TransactionServiceImpl implements TransactionService {
            accountRepository.save(sourceAccount);
            accountRepository.save(recipientAccount);
            transactionRepository.save(transaction);
-           return true;
+           // Envoyer un e-mail de notification à l'utilisateur
+           User user = sourceAccount.getUser();
+           String subject = "Notification de transaction";
+           String message = "Bonjour " + user.getFirstname() + ",\n\nNous vous informons que votre transaction a été effectué avec succès d'un montant de " + transaction.getAmount() + " euros.\n\nCordialement,\nL'équipe de notre banque.";
+           emailService.sendEmail(user.getEmail(), subject, message);
+
+          return true; // kenet lekhra
+
        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
