@@ -8,6 +8,8 @@ import com.example.pi_back.utils.SMSrequest;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
+
 @RestController
 @RequestMapping(path = "SMS")
 @AllArgsConstructor
@@ -16,7 +18,7 @@ public class SmsController {
     private final SmsService smsService;
 
     @PostMapping
-    public String register(@RequestBody SMSrequest request) {
+    public String sendSMS(@RequestBody SMSrequest request) throws MalformedURLException {
         return smsService.sendSMS(request.getSmsnumber(),request.getSmsmessage());
     }
 
