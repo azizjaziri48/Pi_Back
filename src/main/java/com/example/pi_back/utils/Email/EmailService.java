@@ -3,6 +3,7 @@ package com.example.pi_back.utils.Email;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -15,13 +16,14 @@ import javax.mail.internet.MimeMessage;
 @AllArgsConstructor
 public class EmailService implements EmailSender {
 
-    private final static Logger LOGGER = LoggerFactory
-            .getLogger(EmailService.class);
 
-    private final JavaMailSender mailSender;
 
-    @Override
+
+    private JavaMailSender mailSender;
+
+
     @Async
+    @Override
     public void send(String to, String email) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -30,10 +32,10 @@ public class EmailService implements EmailSender {
             helper.setText(email, true);
             helper.setTo(to);
             helper.setSubject("Confirm your email");
-            helper.setFrom("hello@amigoscode.com");
+            helper.setFrom("moetez.khemissi@esprit.tn");
             mailSender.send(mimeMessage);
+            System.out.println("Mail sent successfully!");
         } catch (MessagingException e) {
-            LOGGER.error("failed to send email", e);
             throw new IllegalStateException("failed to send email");
         }
     }

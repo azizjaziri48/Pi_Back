@@ -29,7 +29,9 @@ public class ConfigSecurity extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .anyRequest()
                 .authenticated().and()
-                .formLogin();
+                .formLogin()
+                .and()
+                .httpBasic();
     }
 
     @Override
