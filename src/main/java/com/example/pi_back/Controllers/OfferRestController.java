@@ -10,7 +10,7 @@ import com.example.pi_back.Services.EmailSenderService;
 import com.example.pi_back.Services.OfferService;
 import com.example.pi_back.Services.StatisticService;
 
-import javafx.beans.binding.DoubleExpression;
+
 import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
