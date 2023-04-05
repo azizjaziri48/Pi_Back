@@ -4,17 +4,36 @@ package com.example.pi_back.Services;
 import com.example.pi_back.Entities.Transaction;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TransactionService {
-    public List<Transaction> retrieveAllTransaction();
+     List<Transaction> retrieveAllTransaction();
 
-    public Transaction AddTransaction (Transaction transaction);
+     boolean AddTransaction (Transaction transaction); //testée
 
-    public Transaction updateTransaction (Transaction transaction);
+   //  Transaction updateTransaction (Transaction transaction);
 
-    public Transaction retrieveTransaction(int idTransaction);
+    Transaction retrieveTransaction(int idTransaction);
 
-    public  void removeTransaction(int idTransaction);
+     void removeTransaction(int idTransaction); //nvvadmin testée
+
+
+
+//nvvv
+    Map<Integer, Integer> getTransactionCountByAccount(); //testée
+
+     Map<String, String> getTransactionStatistics(); //testée
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

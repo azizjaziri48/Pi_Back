@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,5 +34,7 @@ public class User implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy="user")
     private Set<Account> accounts;
+
+
 
 }

@@ -5,6 +5,8 @@ import com.example.pi_back.Repositories.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
+
 import java.util.List;
 @Service
 @AllArgsConstructor
@@ -35,4 +37,15 @@ public class AccountServiceImpl implements AccountService{
         return accountRepository.save(account);
     }
 
-}
+
+
+    @Override //nv
+    public Account retrieveAccountByRIB(Long rib) {
+        return accountRepository.findByRIB(rib);
+    }
+
+    }
+
+
+
+

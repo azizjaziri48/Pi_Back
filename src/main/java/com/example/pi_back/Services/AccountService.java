@@ -9,4 +9,7 @@ public interface AccountService {
     void removeAccount (int idAccount);
     Account retrieveAccount (int idAccount);
     Account updateAccount (Account account);
+
+    public Account retrieveAccountByRIB(Long rib); //nv
+
 }

@@ -56,11 +56,11 @@ public class AccountRestController {
     }
     @GetMapping("/get/{id}")
     ResponseEntity<Account> retrieveAccount (@PathVariable("id") Integer idAccount){
-       Account Retrieved_Account=accountService.retrieveAccount(idAccount);
+        Account Retrieved_Account=accountService.retrieveAccount(idAccount);
         if(Retrieved_Account==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-       return new ResponseEntity<>(Retrieved_Account, HttpStatus.OK);
+        return new ResponseEntity<>(Retrieved_Account, HttpStatus.OK);
 
     }
     @PutMapping("/update")
@@ -70,6 +70,11 @@ public class AccountRestController {
         }
         accountService.updateAccount(account);
         return new ResponseEntity<>("Account updated sucessfully", HttpStatus.OK);
+    }
+//nv
+    @GetMapping("/{rib}")
+    public Account retrieveAccountByRIB(@PathVariable("rib") Long rib) {
+        return accountService.retrieveAccountByRIB(rib);
     }
 
 }

@@ -21,6 +21,8 @@ private LocalDate date;
 private long RIB_source;
 private long RIB_recipient;
 private int amount;
+@Enumerated(EnumType.STRING)
+    private TransactionStatus status;
 @ManyToOne
     private Account account;
 

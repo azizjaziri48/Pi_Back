@@ -21,7 +21,7 @@ public class Account implements Serializable {
     private Long solde;
 
     private LocalDate opendate;
-    private String RIB;
+    private long RIB;
     private String state;
     @Enumerated(EnumType.STRING)
     private TypeAccount typeaccount;
@@ -29,4 +29,6 @@ public class Account implements Serializable {
     private User user;
     @OneToMany(mappedBy = "account")
     private Set<Transaction> transactions;
+
+
 }
