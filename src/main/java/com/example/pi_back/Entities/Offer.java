@@ -19,11 +19,11 @@ public class Offer implements Serializable {
     private int id;
     private String name;
     private String type;
-    private Long valeur;
+    private Double valeur;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     @JsonIgnore
     private Partner partner;
-   @ManyToMany
+   @ManyToMany(cascade = CascadeType.ALL)
    @JsonIgnore
    private Set<User> users;
 

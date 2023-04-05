@@ -18,7 +18,7 @@ public class Activity implements Serializable {
     private int id;
     private String name;
     private String description;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private InternalService internalService;
 }

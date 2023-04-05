@@ -6,18 +6,27 @@ import com.example.pi_back.Entities.Statistic;
 import com.example.pi_back.Entities.User;
 import com.example.pi_back.Repositories.OfferRepository;
 import com.example.pi_back.Repositories.UserRepository;
+import com.example.pi_back.Services.EmailSenderService;
 import com.example.pi_back.Services.OfferService;
 import com.example.pi_back.Services.StatisticService;
 
+import javafx.beans.binding.DoubleExpression;
 import lombok.AllArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,16 +39,17 @@ public class OfferRestController {
     private StatisticService statisticService;
     private final OfferRepository offerRepository;
    private UserRepository userRepository;
-
-   /* @GetMapping("/statt")
-    public ModelAndView Statpage() {
-        ModelAndView model = new ModelAndView();
-        model.setViewName("Stat");
-        return model;
-    }*/
+    @Autowired
+    private EmailSenderService service;
 
     @PostMapping("/add")
-    Offer AddOffer(@RequestBody Offer offer) {
+    Offer AddOffer(@RequestBody Offer offer) throws IOException, MessagingException {
+        File file = ResourceUtils.getFile("src/main/java/com/example/pi_back/addoffer.html");
+        System.out.println("File Found : " + file.exists());
+        String content = new String(Files.readAllBytes(file.toPath()));
+        content = content.replace("${offer}", offer.getName());
+        content = content.replace("${partner}", offer.getValeur().toString());
+        service.sendSimpleEmail("mohamedaziz.jaziri1@esprit.tn",content,"new Offer !");
         return offerService.AddOffer(offer);
     }
 
@@ -80,12 +90,12 @@ public class OfferRestController {
         List<Offer> sc = offerService.retrieveAllOffers();
         Statistic statistics = statisticService.CreateStatistic(sc);
         //l'offre ayant la valeur la plus élevée
-        BigDecimal max=statistics.getMax();
-        Offer offer=offerRepository.findOfferByValeur(max.doubleValue());
+        Double max=statistics.getMax().doubleValue();
+        Offer offer=offerRepository.findOfferByValeur(max);
         String texte1="La valeur maximale des offres :"+max+"\n\n"+offer;
         //l'offre ayant la valeur la plus faible
-        BigDecimal min=statistics.getMin();
-        Offer offer1=offerRepository.findOfferByValeur(min.doubleValue());
+        Double min=statistics.getMin().doubleValue();
+        Offer offer1=offerRepository.findOfferByValeur(min);
         String texte2="La valeur minimale des offres:"+min+"\n\n"+offer1;
         //les info en plus
         BigDecimal sum=statistics.getSum();
@@ -100,6 +110,23 @@ public class OfferRestController {
         List<Offer> offers= offerService.historiqueOffers(userid);
         String Text1="l'historique des offres de l'utilisateur "+ user.getFirstname()+"-"+user.getSecondname();
         return  new ResponseEntity<List<Offer>>(offers, HttpStatus.OK);
+    }
+    @GetMapping("/VAN/{idoffer}/{discountrate}/{duration}")
+    public double calculateNetPresentValue(@PathVariable("idoffer") int id,@PathVariable("discountrate") double discountRate,@PathVariable("duration") int duration) {
+        double netPresentValue = 0;
+        double discountedCashFlow = 0;
 
+        Offer offer=offerRepository.findById(id).orElse(null);
+        for (int i = 1; i <= duration; i++) {
+            discountedCashFlow =offer.getValeur() / Math.pow(1 + discountRate, i);
+            netPresentValue += discountedCashFlow;
+        }
+        return netPresentValue;
+    }
+    @GetMapping("/interestamount/{id}/{duration}/{interestrate}")
+    public double calculateInterest(@PathVariable("id") int idoffer,@PathVariable("duration") int duration,@PathVariable("interestrate") double interestrate) {
+        Offer offer=offerRepository.findById(idoffer).orElse(null);
+        double interests = offer.getValeur() * duration * interestrate / 100;
+        return interests;
     }
 }

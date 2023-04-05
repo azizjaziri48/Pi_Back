@@ -25,10 +25,10 @@ public class InternalService implements Serializable {
     private LocalDate Date;
     private int capacite;
     private String Sector;
-    @OneToMany(mappedBy="internalService")
+    @OneToMany(mappedBy="internalService",cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Activity> activities;
-    @ManyToMany(mappedBy="internalServices")
+    @ManyToMany(mappedBy="internalServices",cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Account> accounts;
 }

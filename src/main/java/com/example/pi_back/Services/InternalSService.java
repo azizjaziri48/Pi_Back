@@ -19,5 +19,6 @@ public interface InternalSService {
     List<InternalService> getEventsWithin24Hours();
 
     List<InternalService> getArchiveEvent();
+    InternalService findInternalServiceByCapacite(int capacite);
 
 }

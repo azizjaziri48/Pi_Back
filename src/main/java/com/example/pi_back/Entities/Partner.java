@@ -22,11 +22,11 @@ public class Partner implements Serializable {
     private String name;
     private String sector;
     private String logo;
-    @OneToOne(mappedBy="partner")
+    @OneToOne(mappedBy="partner",cascade = CascadeType.ALL)
     @JsonIgnore
     @Transient
     private Offer offer;
-    @OneToMany(mappedBy="partner")
+    @OneToMany(mappedBy="partner",cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Service> services;
 

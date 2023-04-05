@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService{
             return null;
         }
         else{
-            account.setSolde((account.getSolde()-offer.getValeur()));
+            account.setSolde((long) (account.getSolde()-offer.getValeur()));
             Set<User> userSet=new HashSet<>();
             userSet.add(user);
             offer.setUsers(userSet);

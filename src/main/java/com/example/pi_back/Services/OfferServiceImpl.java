@@ -7,8 +7,15 @@ import com.example.pi_back.Repositories.OfferRepository;
 import com.example.pi_back.Repositories.PartnerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
+import javax.mail.MessagingException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 @Service
@@ -25,9 +32,9 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public Offer AddOffer(Offer offer) {
-        service.sendSimpleEmail("mohamedaziz.jaziri1@esprit.tn","l'offre "+offer.getName()+" est ajoutée","nouvelle offre");
-        return offerRepository.save(offer);
+    public Offer AddOffer(Offer offer)  {
+
+          return  offerRepository.save(offer);
     }
 
     @Override

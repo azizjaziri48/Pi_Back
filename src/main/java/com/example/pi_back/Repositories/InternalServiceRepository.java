@@ -14,6 +14,6 @@ public interface InternalServiceRepository extends JpaRepository<InternalService
     List<InternalService> findByActivitySector(String ActivitySector);
     @Query("select i from InternalService i where i.Date between ?1 and ?2")
     List<InternalService> findByEventDateBetween(LocalDate date1,LocalDate date2);
-
+    InternalService findInternalServiceByCapacite(int capacite);
 
 }

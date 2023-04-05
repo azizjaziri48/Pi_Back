@@ -79,5 +79,8 @@ public class InternalSServiceImpl implements InternalSService{
         }
         return internalServicesArchive;
    }
-
+   @Override
+   public InternalService findInternalServiceByCapacite(int capacite){
+        return internalServiceRepository.findInternalServiceByCapacite(capacite);
+   }
 }

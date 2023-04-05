@@ -19,7 +19,7 @@ public class Service implements Serializable {
     private int id;
     private String name;
     private String Description;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private Partner partner;
 }
