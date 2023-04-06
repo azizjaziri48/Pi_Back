@@ -11,6 +11,14 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.apache.commons.io.IOUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +31,9 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+
+import org.openqa.selenium.WebDriver;
 
 @RestController
 public class GeoIPController {
@@ -71,6 +82,26 @@ String inputFilePath = "C:/Users/Moetez/IdeaProjects/Pi_Back/uploads/nohand.jpg"
         String fullText = tesseract.doOCR(new File(inputFilePath));
         System.out.println("this is full text"+fullText);
         return fullText;
+    }
+    @GetMapping("/selenium")
+    public String sel () throws InterruptedException {
+
+        EdgeOptions edgeOptions = new EdgeOptions();
+System.setProperty("webdriver.edge.driver","C:/Users/Moetez/IdeaProjects/Pi_Back/src/main/resources/msedgedriver.exe");
+
+                WebDriver driver = new EdgeDriver(edgeOptions);
+                driver.get("https://www.facebook.com/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement email_field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/div[1]/div/div/div/div[2]/div/div[1]/form/div[1]/div[1]/input")));
+        email_field.sendKeys("moetez.khemissi@esprit.tn");
+        WebElement password_field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/div[1]/div/div/div/div[2]/div/div[1]/form/div[1]/div[2]/div/input")));
+        password_field.sendKeys("TestPidev123");
+        WebElement confirm_login = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/div[1]/div/div/div/div[2]/div/div[1]/form/div[2]/button")));
+        confirm_login.click();
+        Thread.sleep(15000);
+                driver.quit();
+            return "";
+
     }
 
 }
