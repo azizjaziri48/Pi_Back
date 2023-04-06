@@ -17,6 +17,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.http.MediaType;
@@ -32,6 +33,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.openqa.selenium.WebDriver;
 
@@ -87,20 +91,55 @@ String inputFilePath = "C:/Users/Moetez/IdeaProjects/Pi_Back/uploads/nohand.jpg"
     public String sel () throws InterruptedException {
 
         EdgeOptions edgeOptions = new EdgeOptions();
+
 System.setProperty("webdriver.edge.driver","C:/Users/Moetez/IdeaProjects/Pi_Back/src/main/resources/msedgedriver.exe");
 
                 WebDriver driver = new EdgeDriver(edgeOptions);
+        driver.manage().window().maximize();
                 driver.get("https://www.facebook.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement email_field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/div[1]/div/div/div/div[2]/div/div[1]/form/div[1]/div[1]/input")));
         email_field.sendKeys("moetez.khemissi@esprit.tn");
+        Thread.sleep(500);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement password_field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/div[1]/div/div/div/div[2]/div/div[1]/form/div[1]/div[2]/div/input")));
         password_field.sendKeys("TestPidev123");
+        Thread.sleep(500);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement confirm_login = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/div[1]/div/div/div/div[2]/div/div[1]/form/div[2]/button")));
         confirm_login.click();
-        Thread.sleep(15000);
+        Thread.sleep(5000);
+        driver.get("https://www.facebook.com/rayanrejeb/about");
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement basic_info = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div/div/div/div[1]/div/div/div/div/div[1]/div[5]/a")));
+        Actions action = new Actions(driver);
+
+        action.moveToElement(basic_info).click().perform();
+        basic_info.click();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        WebElement name_container = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div/div/div[1]/div[1]/div/div/div[1]/div[2]/div/div/div/div[3]/div/div/div/div/div/span/h1")));
+        System.out.println("Full name is :"+name_container.getText());
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement Education_button = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div/div/div/div[1]/div/div/div/div/div[1]/div[3]/a")));
+        action.moveToElement(Education_button).click().perform();
+        action.moveToElement(Education_button).click().perform();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        Thread.sleep(5000);
+        WebElement Education_container = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div/div/div/div[1]/div/div/div/div/div[2]/div/div")));
+        Thread.sleep(2000);
+        List<WebElement> education_elements = Education_container.findElements(By.tagName("span"));
+        System.out.println(education_elements);
+        Set<String> education_strings = new HashSet<>();
+        for (WebElement part : education_elements) {
+            education_strings.add(part.getText());
+
+        }
+        System.out.println(education_strings);
+        /*TODO scrape where study*/
+        Thread.sleep(155000);
                 driver.quit();
-            return "";
+            return "Done Scraping";
 
     }
 
