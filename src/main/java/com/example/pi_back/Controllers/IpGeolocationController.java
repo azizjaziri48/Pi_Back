@@ -27,6 +27,13 @@ public class IpGeolocationController {
     public IpGeolocationController(IpService geoIPLocationService) {
         this.geoIPLocationService = geoIPLocationService;
     }
+    @GetMapping("/getip")
+    public String getIp(@PathVariable String ipAddress, HttpServletRequest request
+    ) {
+       /* return ipService.GetIP();*/
+        return "";
+    }
+
 
     @GetMapping("/geoIP/{ipAddress}")
     public GeoIP getLocation(@PathVariable String ipAddress, HttpServletRequest request
