@@ -20,11 +20,11 @@ private final ChatBotService chatbot;
     @PostMapping("/send")
     public ResponseEntity sendMessage(@RequestBody Message message) throws Exception {
         /*TODO Not HARDCODED*/
-        String contxt="Context:This project is a Study project for ESPRIT which is a school of engineering , it is a Spring and Angular Web application project the members of the team are :  Moetez Khemissi(creator of this chatbot ) , aziz jaziri , cyrine chouchane , mariem gnaoui and yassine gharbi you will be answering everything after this context , Begining :what school does moetez khemissi study in ?";
+        String contxt="I am going to give you a context to learn if the question starts with Q: ignore the context and answer without using it Context:This project is a Study project for ESPRIT which is a school of engineering , it is a Spring and Angular Web application project the members of the team are :  Moetez Khemissi(creator of this chatbot ) , aziz jaziri , cyrine chouchane , mariem gnaoui and yassine gharbi you will be answering everything after this context , Begining :what school does moetez khemissi study in ?";
 
         String Actual_question = contxt+message.getMessage();
 
-        chatbot.send(Actual_question);
-        return new ResponseEntity<>("Already Existing Id", HttpStatus.BAD_REQUEST);
+        String response = chatbot.send(Actual_question);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -9,19 +9,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 @Service
 public class ChatBotService {
-    public static void send(String text) throws Exception {
+    public static String send(String text) throws Exception {
         String url = "https://api.openai.com/v1/completions";
         HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
 
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json");
-        con.setRequestProperty("Authorization", "Bearer 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");
+        con.setRequestProperty("Authorization", "Bearer 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");
 
         JSONObject data = new JSONObject();
         data.put("model", "text-davinci-003");
         data.put("prompt", text);
         data.put("max_tokens", 1000);
-        data.put("temperature", 1.0);
+        data.put("temperature", 0.7);
 
         con.setDoOutput(true);
         con.getOutputStream().write(data.toString().getBytes());
@@ -29,5 +29,5 @@ public class ChatBotService {
         String output = new BufferedReader(new InputStreamReader(con.getInputStream())).lines()
                 .reduce((a, b) -> a + b).get();
 
-        System.out.println(new JSONObject(output).getJSONArray("choices").getJSONObject(0).getString("text"));
+        return new JSONObject(output).getJSONArray("choices").getJSONObject(0).getString("text");
 }}
