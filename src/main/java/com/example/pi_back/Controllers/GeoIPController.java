@@ -10,17 +10,21 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 public class GeoIPController {
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
     private final QrCodeService qrservice;
     private final IpService geoIPLocationService;
 
@@ -49,4 +53,13 @@ public String generate_qr() throws IOException, WriterException {
                 .getResourceAsStream("/static/img/QRCode.png");
         return IOUtils.toByteArray(in);
     }
+    @PostMapping  ("/photos/add")
+    public String addPhoto(
+                           @RequestParam("image") MultipartFile image) throws IOException { StringBuilder fileNames = new StringBuilder();
+        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, image.getOriginalFilename());
+        fileNames.append(image.getOriginalFilename());
+        Files.write(fileNameAndPath, image.getBytes());
+        return "done";
+    }
+
 }
