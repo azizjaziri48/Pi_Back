@@ -8,6 +8,8 @@ import com.example.pi_back.Services.QrCodeService;
 import com.google.zxing.WriterException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
@@ -60,6 +62,15 @@ public String generate_qr() throws IOException, WriterException {
         fileNames.append(image.getOriginalFilename());
         Files.write(fileNameAndPath, image.getBytes());
         return "done";
+    }
+    @GetMapping("/OCR")
+    public String OCR () throws TesseractException {
+String inputFilePath = "C:/Users/Moetez/IdeaProjects/Pi_Back/uploads/nohand.jpg";
+        Tesseract tesseract = new Tesseract();
+        tesseract.setDatapath("C:/Users/Moetez/IdeaProjects/Pi_Back/src/main/resources/Tesseract");
+        String fullText = tesseract.doOCR(new File(inputFilePath));
+        System.out.println("this is full text"+fullText);
+        return fullText;
     }
 
 }
