@@ -15,7 +15,7 @@ public class ChatBotService {
 
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json");
-        con.setRequestProperty("Authorization", "Bearer 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");
+        con.setRequestProperty("Authorization", "Bearer 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");
 
         JSONObject data = new JSONObject();
         data.put("model", "text-davinci-003");

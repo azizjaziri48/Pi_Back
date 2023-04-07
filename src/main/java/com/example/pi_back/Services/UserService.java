@@ -1,5 +1,6 @@
 package com.example.pi_back.Services;
 
+import com.example.pi_back.Entities.Account;
 import com.example.pi_back.Entities.Offer;
 import com.example.pi_back.Entities.User;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +15,6 @@ public interface UserService {
     User retrieveUser (int idUser);
     User updateUser (User user);
     User assignUserToOffer(Integer  idUser, Integer idOffer);
-}
+    Account assignAccounttoUser(int idAccount, int idUser) ;
+
+    }

@@ -1,6 +1,7 @@
 package com.example.pi_back.Services;
 
 import com.example.pi_back.Entities.Account;
+import com.example.pi_back.Entities.InternalService;
 import com.example.pi_back.Entities.Offer;
 import com.example.pi_back.Entities.User;
 import com.example.pi_back.Repositories.AccountRepository;
@@ -19,7 +20,7 @@ import java.util.Set;
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     private final OfferRepository offerRepository;
     private final AccountRepository accountRepository;
 
@@ -68,6 +69,14 @@ public class UserServiceImpl implements UserService{
             offer.setUsers(userSet);
             return user;
     }
+    }
+@Override
+    public Account assignAccounttoUser(int idAccount, int idUser) {
+        Account account1=accountRepository.findById(idAccount).orElse(null);
+        User user1=userRepository.findById(idUser).orElse(null);
+        account1.setUser(user1);
+        accountRepository.save(account1);
+        return account1;
     }
 
 }

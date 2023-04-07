@@ -1,5 +1,6 @@
 package com.example.pi_back.Controllers;
 
+import com.example.pi_back.Entities.Account;
 import com.example.pi_back.Entities.User;
 import com.example.pi_back.Services.UserService;
 import lombok.AllArgsConstructor;
@@ -58,5 +59,9 @@ public class UserRestController {
     User assignUserToOffer(@PathVariable("iduser") Integer idUser,@PathVariable("idoffer") Integer idOffer){
      return UserService.assignUserToOffer(idUser,idOffer);
     }
+    @PostMapping("/assignUserToAccount/{idAccount}/{iduser}")
+    Account assignaccounttouser(@PathVariable("idAccount") Integer idAccount,@PathVariable("iduser") Integer iduser){
 
+        return UserService.assignAccounttoUser(idAccount,iduser);
+    }
 }

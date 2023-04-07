@@ -28,7 +28,7 @@ public class Account implements Serializable {
     private TypeAccount typeaccount;
     @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account",cascade=CascadeType.ALL)
     private Set<Transaction> transactions;
     @ManyToMany
     @JsonIgnore

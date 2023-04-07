@@ -3,7 +3,7 @@ package com.example.pi_back.Controllers;
 import com.example.pi_back.Entities.GeoIP;
 import com.example.pi_back.Entities.Offer;
 import com.example.pi_back.Entities.User;
-import com.example.pi_back.Services.IpService;
+
 import com.example.pi_back.Services.IpServiceImpl;
 import com.example.pi_back.Services.SmsService;
 import com.example.pi_back.utils.SMSrequest;
@@ -22,16 +22,16 @@ import java.util.List;
 @RequestMapping(path = "ip")
 
 public class IpGeolocationController {
-    private final IpService geoIPLocationService;
+    private final IpServiceImpl geoIPLocationService;
 
-    public IpGeolocationController(IpService geoIPLocationService) {
+    public IpGeolocationController(IpServiceImpl geoIPLocationService) {
         this.geoIPLocationService = geoIPLocationService;
     }
     @GetMapping("/getip")
-    public String getIp(@PathVariable String ipAddress, HttpServletRequest request
-    ) {
-       /* return ipService.GetIP();*/
-        return "";
+    public ResponseEntity<String> getIp(
+    ) throws MalformedURLException {
+        return new ResponseEntity<>("the result is :"+geoIPLocationService.GetIP(), HttpStatus.OK);
+
     }
 
 
