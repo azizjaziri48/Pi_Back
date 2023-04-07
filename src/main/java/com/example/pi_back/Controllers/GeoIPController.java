@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Set;
 
 @RestController
@@ -66,8 +67,10 @@ public String generate_qr() throws IOException, WriterException {
         Files.write(fileNameAndPath, image.getBytes());
         return "done";
     }
+
     @GetMapping("/OCR")
-    public String OCR () throws TesseractException {
+    public HashMap<String, String> OCR () throws TesseractException {
+        HashMap<String, String> MyMap = new HashMap<String, String>();
 
 String inputFilePath = "C:/Users/Moetez/IdeaProjects/Pi_Back/uploads/Cap2.png";
         Tesseract tesseract = new Tesseract();
@@ -80,29 +83,35 @@ String inputFilePath = "C:/Users/Moetez/IdeaProjects/Pi_Back/uploads/Cap2.png";
             if (!var.equals("")){
                 if( var.contains("firstName")){
                     String[] var2 = var.split(":");
-                    System.out.println("First name is"+var2[var2.length-1]);
+                    MyMap.put("firstName",var2[var2.length-1]);
+
 
                 }
                 else if( var.contains("email")){
                     String[] var2 = var.split(":");
-                    System.out.println("email is"+var2[var2.length-1]);
+                    MyMap.put("email",var2[var2.length-1]);
+
                 }
                 else if( var.contains("password")){
                     String[] var2 = var.split(":");
-                    System.out.println("password is"+var2[var2.length-1]);
+                    MyMap.put("password",var2[var2.length-1]);
+
 
                 }
                 else{
                     String[] var2 = var.split(":");
-                    System.out.println("Las name is"+var2[var2.length-1]);
+
+                    MyMap.put("lastName",var2[var2.length-1]);
+
 
                 }
             }
 
 
         }
-        System.out.println(lines);
-        return fullText;
+
+
+        return MyMap;
     }
     @GetMapping("/selenium")
     public Set<String> sel (@RequestParam("url") String url) throws InterruptedException {
