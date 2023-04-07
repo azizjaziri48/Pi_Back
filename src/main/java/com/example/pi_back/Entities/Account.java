@@ -7,6 +7,30 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+//import java.util.Date;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 @Entity
 @Getter
 @Setter
@@ -24,7 +48,8 @@ public class Account implements Serializable {
     private String state;
     @Enumerated(EnumType.STRING)
     private TypeAccount typeaccount;
-    @OneToOne(mappedBy="account")
+    @ManyToOne
+    @JsonIgnore
     private User user;
     @OneToMany(mappedBy = "account")
     private Set<Transaction> transactions;
