@@ -3,12 +3,14 @@ package com.example.pi_back.Services;
 import com.example.pi_back.Entities.Project;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 @Service
 public interface ProjectService {
 
 
-    double getTotalInvestmentAmount();
+    BigDecimal getTotalInvestmentAmount();
 
     List<Project> retrieveAllProject();
         List<Project> getProject();
@@ -25,9 +27,10 @@ public interface ProjectService {
 
         void finalAmount();
 
-        float CalculateRateOfInves(int id);
 
-        double Rate(float AmountInvestment);
+    //calcul du taux
+
+    double Rate(float AmountInvestment);
 
 
 
@@ -39,6 +42,26 @@ public interface ProjectService {
     List<Project> retrieveAllProjectSorted(String sortBy);
 
     List<Project> retrieveAllProjectSearched(String searchBy);
+
+    List<Project> retrieveProjectbyFund(Long idFund);
+
+    List<Project> findAll();
+
+    List<Project> retrieveAlllProject();
+
+    void calculateRiskScore(String category, LocalDate startdate, LocalDate enddate, String country, float amountinvestment);
+
+    List<Project> getAlProject();
+
+
+
+    Project findProjectByName(String projectName);
+
+    Project retrieveProjectById(int id);
+
+    BigDecimal calculateRateOfInves(int idProject);
+
+    List<Project> getAllProjects();
 }
 
 

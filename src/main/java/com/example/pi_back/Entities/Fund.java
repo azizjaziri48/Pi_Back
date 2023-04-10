@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
@@ -18,11 +19,11 @@ public class Fund implements Serializable {
     @Column(name ="idFund")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idFund ;
-    private float amountFund ;
-    private float tauxFund ;
-    private float tauxGain ;
-    /* @OneToMany(mappedBy="funds")
-     private Set<Credit> credits ;*/
+    private BigDecimal amountFund ;
+    private BigDecimal tauxFund ;
+    private BigDecimal tauxGain ;
+   /* @OneToMany(mappedBy="funds")
+    private Set<Credit> credits ;*/
     @JsonIgnore
     @OneToMany(mappedBy="fund",cascade=CascadeType.PERSIST)
     private Set<Project> Project;

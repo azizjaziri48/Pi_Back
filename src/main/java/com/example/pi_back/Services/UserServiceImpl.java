@@ -35,4 +35,15 @@ public class UserServiceImpl implements UserService{
         return userRepository.save(user);
     }
 
+    @Override
+    public List<User> getUsersByAgeRange(int lowerAge, int upperAge) {
+        return null;
+    }
+
+    @Override
+    public User ajouterUser(User us, int idaccount) {
+        {return userRepository.save(us);}
+    }
+
+
 }

@@ -18,7 +18,6 @@ public class FundController {
 	@Autowired
 	FundService fundService;
 	
-	// http://localhost:8083/BKFIN/Fund/retrieve-all-funds
 			@GetMapping("/retrieve-all-funds")
 			@ResponseBody
 			public List<Fund> getFund() {
@@ -26,7 +25,6 @@ public class FundController {
 			return listFund;
 			}
 			
-			// http://localhost:8083/BKFIN/Fund/retrieve-fund/1
 			@GetMapping("/retrieve-fund/{fund-id}")
 			@ResponseBody
 			public Fund retrieveFund(@PathVariable("fund-id") Long fundId) {

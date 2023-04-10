@@ -23,6 +23,13 @@ public class NotificationServiceImpl implements NotificationService {
         public void sendNotification(Project project) {
             Set<User> users = project.getUsers();
             for (User user : users) {
+                if (user.getAge() >= 18 && user.getAge() <= 30 && project.getIntevage() == A18_25) {
+                    sendNotificationToUser(user, project);
+                } else if (user.getAge() > 30 && user.getAge() <= 50 && project.getIntevage() ==A46_51) {
+                    sendNotificationToUser(user, project);
+                } else if (user.getAge() > 50 && project.getIntevage() == A66_Plus) {
+                    sendNotificationToUser(user, project);
+                }
             }
         }
 

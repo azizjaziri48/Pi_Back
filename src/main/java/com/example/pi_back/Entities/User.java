@@ -1,6 +1,5 @@
 package com.example.pi_back.Entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,6 +20,7 @@ public class User implements Serializable {
     private int id;
     private String Firstname;
     private String Secondname;
+    private int age;
 
     private LocalDate BirthDate;
     private Long Phonenum;
@@ -29,10 +29,11 @@ public class User implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private UserType usertype;
-    @ManyToMany(mappedBy = "users")
-    private Set<Offer> offers;
-    @JsonIgnore
-    @OneToMany(mappedBy="user")
-    private Set<Account> accounts;
+
+    @ManyToMany
+    private Set<Project> projects;
+
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    private Account account;
 
 }

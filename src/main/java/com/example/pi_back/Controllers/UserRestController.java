@@ -1,11 +1,13 @@
 package com.example.pi_back.Controllers;
 
 import com.example.pi_back.Entities.User;
+import com.example.pi_back.Repositories.UserRepository;
 import com.example.pi_back.Services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -13,6 +15,7 @@ import java.util.List;
 @RequestMapping("/User")
 public class UserRestController {
     private UserService UserService;
+    private UserRepository userRepository;
     @GetMapping("/all")
     List<User> retrieveAllUser() {
         return UserService.retrieveAllUser();
@@ -51,6 +54,15 @@ public class UserRestController {
         }
         UserService.updateUser(user);
         return new ResponseEntity<>("User updated sucessfully", HttpStatus.OK);
+    }
+
+    @PostMapping("/adduser/{idaccount}")
+    @ResponseBody
+    public User ajouterUser(@RequestBody User us, @PathVariable("idaccount") int idaccount)
+    {
+
+        User user = UserService.ajouterUser(us, idaccount);
+        {return userRepository.save(us);}
     }
 
 }

@@ -1,11 +1,13 @@
 package com.example.pi_back.Entities;
 
+
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Currency;
 import java.util.List;
 import java.util.Set;
 
@@ -22,23 +24,23 @@ public class Project implements Serializable {
     private int id;
     private String name;
 
-
     private String description;
-    private float amountinvestment;
-    private int numberinv;
-    private float tauxinvest;
+    private BigDecimal amountinvestment;
+    private Currency currency;
+
+    private BigDecimal tauxinvest;
     @Enumerated(EnumType.STRING)
-    private IntevAge invetage;
-    //   private String mailInvestesment;
-    private int riskscore;
-    private String town;
+    private IntevAge intevage;
+ //   private String mailInvestesment;
+private int riskscore;
+    private String country;
     private LocalDate startdate;
     private LocalDate enddate;
     private String category;
 
     @ManyToMany
     private Set<User> users;
-    private float finalamount;
+    private BigDecimal finalamount;
 
     @ManyToOne(cascade=CascadeType.PERSIST)
     private Fund fund;
@@ -50,6 +52,11 @@ public class Project implements Serializable {
 
     private String qrCode;
 
-    public void setTaxCompliant(boolean isCompliant) {
-    }
+
+
+    @ManyToMany(mappedBy = "investedProjects")
+    private Set<Investor> investors;
+
 }
+
+

@@ -10,7 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -18,17 +23,21 @@ import java.util.List;
 public class ProjectServiceImpl implements ProjectService {
 
 
-
+    public Project retrieveProjectById(int id) {
+        Optional<Project> optionalProject = projectRepository.findById(id);
+        return optionalProject.orElse(null);
+    }
 
     @Override
-    public double getTotalInvestmentAmount() {
+    public BigDecimal getTotalInvestmentAmount() {
         List<Project> projects = projectRepository.findAll();
-        double totalInvestment = 0;
+        BigDecimal totalInvestment = BigDecimal.ZERO;
         for (Project project : projects) {
-            totalInvestment += project.getAmountinvestment();
+            totalInvestment = totalInvestment.add(project.getAmountinvestment());
         }
         return totalInvestment;
     }
+
     @Autowired
     private final FundRepository fundRepository;
 
@@ -50,10 +59,7 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.save(project);
     }
 
-  /*  @Override
-    public Project AddProject(Project project, long idFund) {
-        return projectRepository.save(project);
-    }*/
+
 
     @Override
     public void removeProject(int idProject) {
@@ -67,18 +73,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project updateProject(Project project) {
-        float Amount = project.getAmountinvestment();
-        double Rate = 0.12 * (1 - Math.exp(-(Amount) / 10000));
+        BigDecimal amount = project.getAmountinvestment();
+        BigDecimal rate = new BigDecimal("0.12").multiply(new BigDecimal("1").subtract(new BigDecimal(Math.exp(amount.negate().divide(new BigDecimal("10000")).doubleValue()))));
 
         project.setName(project.getName());
         project.setDescription(project.getDescription());
-        project.setAmountinvestment(Amount);
-        project.setTauxinvest((float) Rate);
-        project.setNumberinv(project.getNumberinv());
-        project.setTown(project.getTown());
+        project.setAmountinvestment(amount);
+        project.setTauxinvest(rate);
+        project.setCountry(project.getCountry());
         project.setStartdate(project.getStartdate());
         project.setEnddate(project.getEnddate());
-     //   project.setRate(project.getRate());
+        // project.setRate(project.getRate());
 
         return projectRepository.save(project);
     }
@@ -86,7 +91,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void CalculateAmountOfInves(int id) {
         Project p = projectRepository.findById(id).orElse(null);
-        p.setFinalamount(p.getAmountinvestment() + (p.getAmountinvestment() * p.getTauxinvest()));
+        p.setFinalamount(p.getAmountinvestment().add(p.getAmountinvestment().multiply(p.getTauxinvest())));
         projectRepository.save(p);
     }
 
@@ -99,59 +104,106 @@ public class ProjectServiceImpl implements ProjectService {
     public void finalAmount() {
         List<Project> listProj = (List<Project>) projectRepository.findAll();
         for (Project p : listProj) {
-            p.setFinalamount((p.getAmountinvestment() * (1 + p.getTauxinvest())));
+            BigDecimal amount = p.getAmountinvestment();
+            BigDecimal rate = p.getTauxinvest();
+            BigDecimal finalAmount = amount.multiply(BigDecimal.ONE.add(rate));
+            p.setFinalamount(finalAmount);
             projectRepository.save(p);
         }
     }
+//calcul du taux
+@Override
+public BigDecimal calculateRateOfInves(int id) {
+    Project p = projectRepository.findById(id).orElse(null);
+    BigDecimal amount = p.getAmountinvestment();
+    BigDecimal rate = BigDecimal.ZERO;
+    if (amount.compareTo(BigDecimal.ZERO) != 0) {
+        rate = new BigDecimal(0.12).multiply(BigDecimal.ONE.subtract(new BigDecimal(Math.exp(amount.negate().divide(new BigDecimal(10000), RoundingMode.HALF_UP).doubleValue()))));
+    }
+    p.setTauxinvest(rate);
+    return rate;
+}
 
     @Override
-    public float CalculateRateOfInves(int id) {
-        Project p = projectRepository.findById(id).orElse(null);
-        float Amount = p.getAmountinvestment();
-        double Rate = 0.0;
-        if (Amount != 0.0) {
-            Rate = 0.12 * (1 - Math.exp(-(Amount) / 10000));
-        }
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();    }
 
-        p.setTauxinvest((float) Rate);
-        return (float) Rate;
-    }
-
+    //taux 2eme methode
     @Override
     public double Rate(float AmountInvestment) {
         return 0.12 * (1 - Math.exp(-(AmountInvestment) / 10000));
     }
 
-    @Override
+ /*   @Override
     public Project addProject(Project project, Long idFund) {
-        float Amount = project.getAmountinvestment();
-		/*formule de taux economique (invalide)
-		i.setTauxInves((i.getAmoutInvestesment())/(pib*100));
-		Le taux d'inves est variable selon le montant choisit
-		Plus le montant aug plus le taux aug
-		Minimum du montant investit = 7000
-		*/
-        if (Amount >= 4000) {
+        BigDecimal amount = project.getAmountinvestment();
+    /*formule de taux economique (invalide)
+    i.setTauxInves((i.getAmoutInvestesment())/(pib*100));
+    Le taux d'inves est variable selon le montant choisit
+    Plus le montant aug plus le taux aug
+    Minimum du montant investit = 7000
+    */
+
+     /*   if (amount.compareTo(BigDecimal.valueOf(7000)) >= 0) {
             Fund f = fundRepository.findById(idFund).orElse(null);
             //Si le montant atteint 200000 le tau reste fixe à 12%
-            double Rate = 0.12*(1- Math.exp(-(Amount)/10000));
-            project.setTauxinvest((float) Rate);
+            BigDecimal rate = BigDecimal.ZERO;
+            if (amount.compareTo(BigDecimal.valueOf(200000)) < 0) {
+                rate = new BigDecimal(0.12).multiply(BigDecimal.ONE.subtract(new BigDecimal(Math.exp(amount.negate().divide(new BigDecimal(10000), RoundingMode.HALF_UP).doubleValue()))));
+            } else {
+                rate = BigDecimal.valueOf(0.12);
+            }
+            project.setTauxinvest(rate);
             project.setFund(f);
             //incrémentation du fund pour chaque investissement
-            f.setAmountFund(f.getAmountFund()+project.getAmountinvestment());
+            f.setAmountFund(f.getAmountFund().add(project.getAmountinvestment()));
             //incrémentation du taux pour chaque investissement
             List<Project> listProj = (List<Project>) projectRepository.findAll();
-            float s = 0;
-            for (Project  inv : listProj) {
-                s=s+(inv.getAmountinvestment());
+            BigDecimal s = BigDecimal.ZERO;
+            for (Project inv : listProj) {
+                s = s.add(inv.getAmountinvestment());
             }
-            s=s+project.getAmountinvestment();
-            float pourc_inv = (project.getAmountinvestment())/s;
-            f.setTauxFund(pourc_inv*(project.getTauxinvest())+(1-pourc_inv)*f.getTauxFund());
+            s = s.add(project.getAmountinvestment());
+            BigDecimal pourc_inv = project.getAmountinvestment().divide(s, 2, RoundingMode.HALF_UP);
+            f.setTauxFund(pourc_inv.multiply(project.getTauxinvest()).add(BigDecimal.ONE.subtract(pourc_inv).multiply(f.getTauxFund())));
             projectRepository.save(project);
         }
         return project;
     }
+
+*/
+     @Override
+     public Project addProject(Project project, Long idFund) {
+         BigDecimal amount = project.getAmountinvestment();
+    /*formule de taux economique (invalide)
+    i.setTauxInves((i.getAmoutInvestesment())/(pib*100));
+    Le taux d'inves est variable selon le montant choisit
+    Plus le montant aug plus le taux aug
+    Minimum du montant investit = 7000
+    */
+
+         if (amount.compareTo(new BigDecimal("6000")) >= 0) {
+             Fund f = fundRepository.findById(idFund).orElse(null);
+             //Si le montant atteint 200000 le tau reste fixe à 12%
+             double rate = 0.12*(1- Math.exp(-(amount.doubleValue())/10000)); //rendement invest
+             project.setTauxinvest(BigDecimal.valueOf(rate));
+             project.setFund(f);
+             //incrémentation du fund pour chaque investissement
+             f.setAmountFund(f.getAmountFund().add(amount));
+             //incrémentation du taux pour chaque investissement
+             List<Project> listProj = (List<Project>) projectRepository.findAll();
+             BigDecimal s = BigDecimal.ZERO;
+             for (Project  inv : listProj) {
+                 s = s.add(inv.getAmountinvestment());
+             }
+             s = s.add(amount);
+             BigDecimal pourc_inv = amount.divide(s, 2, RoundingMode.HALF_UP);
+             f.setTauxFund(pourc_inv.multiply(project.getTauxinvest()).add(BigDecimal.ONE.subtract(pourc_inv)).multiply(f.getTauxFund()));
+             project.setFinalamount(amount.add(project.getTauxinvest().multiply(amount)));
+             projectRepository.save(project);
+         }
+         return project;
+     }
 
 
     @Override
@@ -169,8 +221,94 @@ public class ProjectServiceImpl implements ProjectService {
         return null;
     }
 
+    @Override
+    public List<Project> retrieveProjectbyFund(Long idFund) {
+        return (List<Project>) projectRepository.retrieveProjectbyFund(idFund);
+    }
+
+    @Override
+    public List<Project> findAll() {
+        return projectRepository.findAll();    }
+
+    @Override
+    public List<Project> retrieveAlllProject()  {
+        return projectRepository.findAll();
+    }
+
+
+
+     Integer riskscore;
+    @Override
+
+    public void calculateRiskScore(String category, LocalDate startdate, LocalDate enddate, String country, float amountinvestment) {
+        int riskscore = 0;
+        // Ajouter des points de risque en fonction de la catégorie du projet
+        if (category.equals("Animals")) {
+            riskscore += 5;
+        } else if (category.equals("Ecology")) {
+            riskscore += 3;
+        } else if (category.equals("Woman")) {
+            riskscore += 4;
+        } else if (category.equals("Humanism")) {
+            riskscore += 2;
+        }else if (category.equals("Real Estate")) {
+            riskscore += 2;
+        }
+
+        // Ajouter des points de risque en fonction de la durée du projet
+        long days = ChronoUnit.DAYS.between(startdate, enddate);
+        if (days > 365) {
+            riskscore += 5;
+        } else if (days > 180) {
+            riskscore += 3;
+        } else if (days > 90) {
+            riskscore += 2;
+        }
+
+        // Ajouter des points de risque en fonction du montant d'investissement
+        if (amountinvestment > 100000) {
+            riskscore += 5;
+        } else if (amountinvestment > 50000) {
+            riskscore += 3;
+        } else if (amountinvestment > 10000) {
+            riskscore += 1;
+        }
+
+        // Ajouter des points de risque en fonction de la localisation du projet
+        if (country.equals("Tunis")) {
+            riskscore += 3;
+        } else if (country.equals("France")) {
+            riskscore += 2;
+        } else if (country.equals("America")) {
+            riskscore += 1;
+        }
+
+        this.riskscore = riskscore;
+    }
+
+    @Override
+    public List<Project> getAlProject() {
+        return projectRepository.findAll();    }
+    @Scheduled(cron = "0 0 0 * * *") // exécuté tous les jours à minuit
+    public void removeExpiredProjects() {
+        LocalDate currentDate = LocalDate.now();
+        List<Project> expiredProjects = projectRepository.findByEnddateBefore(currentDate);
+        if (!expiredProjects.isEmpty()) {
+            projectRepository.deleteAll(expiredProjects);
+        }
+    }
+
+    @Override
+    public Project findProjectByName(String name) {
+        return projectRepository.findByName(name);
+    }
+
 
 }
+
+
+
+
 
 
 

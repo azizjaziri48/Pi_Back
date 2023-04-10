@@ -10,9 +10,8 @@
     <field name="category" class="java.lang.String"/>
     <field name="description" class="java.lang.String"/>
     <field name="amountinvestment" class="java.lang.Float"/>
-    <field name="numberinv" class="java.lang.Integer"/>
     <field name="tauxinvest" class="java.lang.Float"/>
-    <field name="invetage" class="com.example.pi_back.Entities.IntevAge"/>
+    <field name="intevage" class="com.example.pi_back.Entities.IntevAge"/>
     <field name="town" class="java.lang.String"/>
     <field name="date" class="java.time.LocalDate"/>
     <field name="finalamount" class="java.lang.Float"/>
@@ -20,7 +19,6 @@
     <field name="likes" class="java.util.List"/>
     <field name="dislikes" class="java.util.List"/>
     <field name="qrCode" class="java.lang.String"/>
-
     <property name="template.engine" value="tabular_template"/>
     <property name="ireport.zoom" value="1.0"/>
     <property name="ireport.x" value="0"/>
@@ -173,20 +171,16 @@
                 <reportElement x="282" y="9" width="60" height="130" uuid="2a58f76b-1541-4b3e-b031-060f69910632"/>
                 <textFieldExpression><![CDATA[$F{amountinvestment}]]></textFieldExpression>
             </textField>
-            <textField>
-                <reportElement style="Table" x="429" y="12" width="63" height="130" uuid="37ae9302-4810-4b08-bb2e-542e4500cb0b"/>
-                <textFieldExpression><![CDATA[$F{numberinv}]]></textFieldExpression>
-            </textField>
+
             <staticText>
                 <reportElement style="Table" x="425" y="-7" width="59" height="140" forecolor="#F0C30E" uuid="98ffce58-7724-48da-8b0a-b1eb284a0583"/>
                 <textElement textAlignment="Center">
                     <font isBold="true"/>
                 </textElement>
-                <text><![CDATA[Number of investors]]></text>
             </staticText>
             <textField>
                 <reportElement x="495" y="12" width="100" height="20" uuid="068c66c7-a3c4-4908-807b-13519edb83e1"/>
-                <textFieldExpression><![CDATA[$F{invetage}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{intevage}]]></textFieldExpression>
             </textField>
             <pie3DChart>
                 <chart isShowLegend="false" evaluationTime="Report">
@@ -276,5 +270,7 @@ $V{REPORT_COUNT}]]></keyExpression>
                 </barPlot>
             </ganttChart>
         </band>
+
     </summary>
+
 </jasperReport>

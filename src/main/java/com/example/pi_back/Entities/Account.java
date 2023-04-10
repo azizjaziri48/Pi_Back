@@ -1,5 +1,6 @@
 package com.example.pi_back.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,20 +14,23 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Data
 public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
     private String cin;
     private Long solde;
+    private int age;
 
     private LocalDate opendate;
     private String RIB;
     private String state;
     @Enumerated(EnumType.STRING)
     private TypeAccount typeaccount;
-    @ManyToOne
-    private User user;
-    @OneToMany(mappedBy = "account")
-    private Set<Transaction> transactions;
+    @JsonIgnore
+    @OneToMany(mappedBy="account",cascade=CascadeType.PERSIST)
+    private Set<User> users;
+
+
 }

@@ -1,7 +1,6 @@
 package com.example.pi_back.Controllers;
 
 import com.example.pi_back.Entities.Account;
-import com.example.pi_back.Entities.User;
 import com.example.pi_back.Services.AccountService;
 import com.example.pi_back.Services.UserService;
 import lombok.AllArgsConstructor;
@@ -9,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @AllArgsConstructor
@@ -46,6 +43,11 @@ public class AccountRestController {
         accountService.AddAccount(account);
         return new ResponseEntity<>("Account added sucessfully", HttpStatus.CREATED);
     }
+
+ /*   @PutMapping("/assignaccountToUser/{idaccount}/{iduser}")
+    public Account assignAccountToUser(@PathVariable("idaccount") Long idInscri,@PathVariable("iduser") Long idCours){
+        return accountService.assignAccountToUser(idaccount,iduser);
+    }*/
     @DeleteMapping("/delete/{id}")
     ResponseEntity<String> removeAccount (@PathVariable("id") Integer idAccount){
         if(accountService.retrieveAccount(idAccount)==null){
@@ -71,5 +73,9 @@ public class AccountRestController {
         accountService.updateAccount(account);
         return new ResponseEntity<>("Account updated sucessfully", HttpStatus.OK);
     }
+
+
+
+
 
 }

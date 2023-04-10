@@ -10,6 +10,12 @@ import java.util.List;
 @AllArgsConstructor
 public class AccountServiceImpl implements AccountService{
     private AccountRepository accountRepository;
+
+    @Override
+    public Account addAccouunt(Account account, int iduser)
+        {return accountRepository.save(account);}
+
+
     @Override
     public List<Account> retrieveAllAccount() {
         return accountRepository.findAll();
@@ -35,4 +41,14 @@ public class AccountServiceImpl implements AccountService{
         return accountRepository.save(account);
     }
 
+
+
+
+    /*@Override
+    public Account assignAccountToUser(int idaccount, int iduser) {
+        Account account=accountRepository.findById(idaccount).orElse(null);
+        User user=userRepository.findById(iduser).orElse(null);
+        Account.setUser(user);
+        return accountRepository.save(account);
+    }*/
 }
