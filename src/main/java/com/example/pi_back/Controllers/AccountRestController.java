@@ -77,4 +77,9 @@ public class AccountRestController {
         return accountService.assignEventToAccount(idAccount,idIService);
     }
 
+    @GetMapping("/{rib}")
+    public Account retrieveAccountByRIB(@PathVariable("rib") Long rib) {
+        return accountService.retrieveAccountByRIB(rib);
+    }
+
 }

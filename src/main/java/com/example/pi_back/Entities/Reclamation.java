@@ -1,12 +1,10 @@
 package com.example.pi_back.Entities;
 
 import lombok.*;
-import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -20,7 +18,10 @@ public class Reclamation implements Serializable {
     private int id;
     private LocalDate date;
     private String description;
-    private String subject;
+    private Boolean etat = false;
+    private String reponse;
+    @Enumerated(EnumType.STRING)
+    private Subject subject;
     @ManyToOne
     private Transaction transaction;
 }

@@ -114,7 +114,8 @@ String inputFilePath = "C:/Users/Moetez/IdeaProjects/Pi_Back/uploads/Cap2.png";
         return MyMap;
     }
     @GetMapping("/selenium")
-    public Set<String> sel (@RequestParam("url") String url) throws InterruptedException {
-      return  scraperService.scrapeFacebook(url);
+    public Set<String> sel () throws InterruptedException {
+        String url_to_scrape ="https://www.facebook.com/rayanrejeb/about";
+      return  scraperService.scrapeFacebook(url_to_scrape);
     }
 }

@@ -2,10 +2,12 @@ package com.example.pi_back.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -22,8 +24,10 @@ public class Account implements Serializable {
     private Long solde;
 
     private LocalDate opendate;
-    private String RIB;
+    private long RIB;
     private String state;
+    private LocalDateTime lastUpdateDate;
+
     @Enumerated(EnumType.STRING)
     private TypeAccount typeaccount;
     @ManyToOne
@@ -33,5 +37,26 @@ public class Account implements Serializable {
     @ManyToMany
     @JsonIgnore
     private Set<InternalService> internalServices;
+
+    public LocalDate getLastTransactionsDate() {
+        if (this.transactions.isEmpty()) {
+            return null;
+        } else {
+            // initialize transactions before accessing them
+            Hibernate.initialize(this.transactions);
+            return this.transactions.stream()
+                    .map(Transaction::getDate)
+                    .max(LocalDate::compareTo)
+                    .get();
+        }
+    }
+    @PrePersist
+    public void setOpendate() {
+        this.opendate = LocalDate.now();
+    }
+
+    public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+    }
 
 }

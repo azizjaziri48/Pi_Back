@@ -32,20 +32,22 @@ public class ScraperService {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement email_field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/div[1]/div/div/div/div[2]/div/div[1]/form/div[1]/div[1]/input")));
         email_field.sendKeys("moetez.khemissi@esprit.tn");
-        Thread.sleep(500);
+        Thread.sleep(1500);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement password_field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/div[1]/div/div/div/div[2]/div/div[1]/form/div[1]/div[2]/div/input")));
         password_field.sendKeys("TestPidev123");
-        Thread.sleep(500);
+        Thread.sleep(1500);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement confirm_login = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/div[1]/div/div/div/div[2]/div/div[1]/form/div[2]/button")));
         confirm_login.click();
-        Thread.sleep(5000);
+        Thread.sleep(20000);
         driver.get(url);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement basic_info = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div/div/div/div[1]/div/div/div/div/div[1]/div[5]/a")));
         Actions action = new Actions(driver);
-
+        Thread.sleep(10000);
+        action.moveToElement(basic_info).click().perform();
+        basic_info.click();
         action.moveToElement(basic_info).click().perform();
         basic_info.click();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -56,12 +58,12 @@ public class ScraperService {
         WebElement Education_button = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div/div/div/div[1]/div/div/div/div/div[1]/div[3]/a")));
         action.moveToElement(Education_button).click().perform();
         System.out.println("Hi i am here");
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         WebElement Education_container = null;
         try {
             wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             Education_container = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div/div[1]/div/div[5]/div/div/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div/div/div/div[1]/div/div/div/div/div[2]/div/div")));
-            Thread.sleep(2000);
+            Thread.sleep(4000);
         } catch (Exception e) {
             System.out.println("Something wen wrong" + e);
         }

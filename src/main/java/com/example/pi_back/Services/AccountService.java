@@ -1,6 +1,7 @@
 package com.example.pi_back.Services;
 
 import com.example.pi_back.Entities.Account;
+import com.example.pi_back.Entities.Transaction;
 
 import java.util.HashSet;
 import java.util.List;
@@ -13,5 +14,9 @@ public interface AccountService {
     Account retrieveAccount (int idAccount);
     Account updateAccount (Account account);
     Account assignEventToAccount(int idAccount,int idIService);
+
+    public Account retrieveAccountByRIB(Long rib); //nv
+    public double calculateTransactionFee(Transaction transaction);
+    void deleteAllDeletableAccounts(int inactiveMinutes);
 
 }

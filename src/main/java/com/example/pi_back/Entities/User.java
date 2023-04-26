@@ -34,6 +34,8 @@ public class User implements Serializable, UserDetails {
     private Boolean enabled = false;
     private String activitySector;
     private String password;
+    //null par defaut / true autorisé/false non autorisé
+    private Boolean Credit_authorization;
 
     @Enumerated(EnumType.STRING)
     private UserType usertype;

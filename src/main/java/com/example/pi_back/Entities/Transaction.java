@@ -14,17 +14,26 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 public class Transaction implements Serializable {
-@Id
+    @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-private LocalDate date;
-private long RIB_source;
-private long RIB_recipient;
-private int amount;
-@ManyToOne
+    private LocalDate date;
+    private long RIB_source;
+    private long RIB_recipient;
+    private int amount;
+    private double fees =0;
+
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus status;
+    @ManyToOne
     private Account account;
 
     @OneToMany( mappedBy="transaction")
     private Set<Reclamation> reclamations;
+
+    @PrePersist
+    public void setdate() {
+        this.date = LocalDate.now();
+    }
 
 }
