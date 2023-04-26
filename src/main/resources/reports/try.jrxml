@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="project_list" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="85a394da-5f04-425e-ab4e-937c7acb0a22">
+    <queryString>
+        <![CDATA[]]>
+    </queryString>
+    <field name="id" class="java.lang.Integer"/>
+    <field name="name" class="java.lang.String"/>
+    <field name="category" class="java.lang.String"/>
+    <field name="description" class="java.lang.String"/>
+    <field name="amountinvestment" class="java.math.BigDecimal"/>
+    <field name="tauxinvest" class="java.math.BigDecimal"/>
+    <field name="intevage" class="com.example.pi_back.Entities.IntevAge"/>
+    <field name="country" class="java.lang.String"/>
+    <field name="enddate" class="java.time.LocalDate"/>
+    <field name="startdate" class="java.time.LocalDate"/>
+    <field name="finalamount" class="java.math.BigDecimal"/>
+    <field name="fund" class="com.example.pi_back.Entities.Fund"/>
+    <field name="likes" class="java.util.List"/>
+    <field name="dislikes" class="java.util.List"/>
+    <field name="qrCode" class="java.lang.String"/>
+    <title>
+        <band height="90" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="90" forecolor="#0F2196" uuid="7612e26c-c87d-42b9-8364-f8a1a5a871c3"/>
+                <textElement textAlignment="Center">
+                    <font fontName="Serif" size="40" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Project List]]></text>
+            </staticText>
+        </band>
+    </title>
+    <detail>
+        <band height="27" splitType="Stretch">
+            <textField>
+                <reportElement x="-12" y="0" width="31" height="20" uuid="3216cb3b-5e9a-4cf6-9f7d-3f04a6ddd275"/>
+                <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="27" y="0" width="54" height="20" uuid="2a1698ff-51fa-45ce-88b9-d0161b5b47c4"/>
+                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="83" y="0" width="64" height="20" uuid="c8101060-56af-458a-9227-be69791952e4"/>
+                <textFieldExpression><![CDATA[$F{category}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="228" y="0" width="79" height="20" uuid="ceb34bd8-f6e6-488e-862f-54a215996b8a"/>
+                <textFieldExpression><![CDATA[$F{country}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="555" y="0" width="100" height="20" uuid="ac2ab153-8db2-428a-b720-53235643f490"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$F{amountinvestment}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="277" y="0" width="30" height="20" uuid="4ecf6c1f-fa5c-4b51-83ef-c3b6a378e98b"/>
+                <textFieldExpression><![CDATA[$F{amountinvestment}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="355" y="0" width="38" height="20" uuid="cdebc3f4-a5f9-4bd0-896c-5a4a9491204e"/>
+                <textFieldExpression><![CDATA[$F{intevage}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="401" y="0" width="50" height="20" uuid="a7a09698-19b6-4405-bd0a-324ae638cf09"/>
+                <textFieldExpression><![CDATA[$F{startdate}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="457" y="-1" width="50" height="20" uuid="80df0b11-7160-4749-9634-68c793244159"/>
+                <textFieldExpression><![CDATA[$F{enddate}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <summary>
+        <band height="377" splitType="Stretch">
+            <textField>
+                <reportElement x="149" y="-27" width="91" height="20" uuid="694e8019-c928-44c6-94a3-8528ed80bb0d"/>
+                <textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

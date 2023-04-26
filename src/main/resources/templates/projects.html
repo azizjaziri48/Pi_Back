@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Projects</title>
+</head>
+<body>
+<h1>Projects List</h1>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Amount Investment</th>
+    <th>Final Amount</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="project : ${listProj}">
+    <td th:text="${project.id}"></td>
+    <td th:text="${project.name}"></td>
+    <td th:text="${project.description}"></td>
+    <td th:text="${project.amountinvestment}"></td>
+    <td th:text="${project.finalamount}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
